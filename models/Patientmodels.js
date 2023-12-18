@@ -9,23 +9,72 @@ const encounterSchema = new mongoose.Schema({
   // existing fields...
   encounters: [encounterSchema],
 
+module.exports = Patient;
 
+// src/models/patientModel.js
 
-
+const mongoose = require('mongoose');
 
 const patientSchema = new mongoose.Schema({
-    encounters: [encounterSchema],
-  patientID: { type: String, unique: true, required: true },
-  surname: { type: String, required: true },
-  othernames: { type: String, required: true },
-  gender: { type: String, enum: ['Male', 'Female', 'Other'], required: true },
-  phoneNumber: { type: String, required: true },
-  residentialAddress: { type: String, required: true },
-  emergencyContact: {
-    name: { type: String, required: true },
-    contact: { type: String, required: true },
-    relationship: { type: String, required: true },
+  patientID: {
+    type: String,
+    required: true,
+    unique: true,
   },
+  surname: {
+    type: String,
+    required: true,
+  },
+  otherNames: {
+    type: String,
+    required: true,
+  },
+  gender: {
+    type: String,
+    enum: ['Male', 'Female', 'Other'],
+    required: true,
+  },
+  phoneNumber: {
+    type: String,
+    required: true,
+  },
+  residentialAddress: {
+    type: String,
+    required: true,
+  },
+  emergencyContact: {
+    name: {
+      type: String,
+      required: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+    },
+    relationship: {
+      type: String,
+      required: true,
+    },
+  },
+  encounters: [
+    {
+      date: {
+        type: Date,
+        required: true,
+      },
+      type: {
+        type: String,
+        enum: ['Emergency', 'OPD', 'Specialist Care'],
+        required: true,
+      },
+      vitals: {
+        bloodPressure: String,
+        temperature: String,
+        pulse: String,
+        spO2: String,
+      },
+    },
+  ],
 });
 
 const Patient = mongoose.model('Patient', patientSchema);
